@@ -2,94 +2,120 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sửa Chữa Điện Lạnh Trần Phong</title>
+  <title>Hộp Quà Tình Yêu</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f4f8;
-      color: #333;
+      background-color: #fff0f5;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
-    header {
-      background-color: #007bff;
-      color: white;
-      padding: 20px;
+
+    .container {
+      position: relative;
       text-align: center;
     }
-    h1 {
-      margin: 0;
-      font-size: 2em;
+
+    .gift-box {
+      width: 150px;
+      height: 150px;
+      background-color: #ff4d6d;
+      position: relative;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      z-index: 2;
     }
-    .slogan {
-      font-style: italic;
-      font-size: 1.1em;
+
+    .gift-box::before, .gift-box::after {
+      content: '';
+      position: absolute;
+      background-color: white;
     }
-    main {
-      padding: 20px;
-    }
-    section {
-      margin-bottom: 20px;
-    }
-    h2 {
-      color: #007bff;
-    }
-    ul {
-      list-style-type: disc;
-      margin-left: 20px;
-    }
-    textarea {
+
+    .gift-box::before {
       width: 100%;
-      height: 100px;
-      padding: 10px;
-      font-size: 1em;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      resize: vertical;
+      height: 20px;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
     }
-    label {
+
+    .gift-box::after {
+      height: 100%;
+      width: 20px;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .lid {
+      width: 150px;
+      height: 40px;
+      background-color: #d6336c;
+      position: absolute;
+      top: -40px;
+      left: 0;
+      border-radius: 10px 10px 0 0;
+      transition: top 0.5s ease;
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      color: #d6336c;
+      font-size: 36px;
       font-weight: bold;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+      opacity: 0;
+      z-index: 1;
     }
-    footer {
-      background-color: #e9ecef;
-      padding: 15px;
-      text-align: center;
-      font-size: 0.9em;
+
+    .open .lid {
+      top: -80px;
+    }
+
+    .open .gift-box {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+
+    .open .message {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Sửa Chữa Điện Lạnh Trần Phong</h1>
-    <p class="slogan">Tận tâm - Uy tín - Trách nhiệm</p>
-  </header>
 
-  <main>
-    <section>
-      <h2>Dịch Vụ Cung Cấp</h2>
-      <ul>
-        <li>Sửa chữa máy lạnh</li>
-        <li>Vệ sinh máy lạnh</li>
-        <li>Sửa chữa máy giặt</li>
-      </ul>
-      <label for="yeu-cau-khac">Nhập yêu cầu khác của bạn tại đây:</label>
-      <textarea id="yeu-cau-khac" placeholder="Ví dụ: sửa tủ lạnh, vệ sinh máy nước nóng, lắp đặt máy mới..."></textarea>
-    </section>
+<div class="container" onclick="openGift(this)">
+  <div class="gift-box">
+    <div class="lid"></div>
+  </div>
+  <div class="message">I LOVE YOU</div>
+</div>
 
-    <section>
-      <h2>Thông Tin Liên Hệ</h2>
-      <p><strong>Địa chỉ:</strong> Dương Thị Mười, Tân Thới Hiệp, Quận 12</p>
-      <p><strong>Số điện thoại:</strong> <a href="tel:0904529716">0904 529 716</a> (có Zalo)</p>
-    </section>
-  </main>
+<script>
+  function openGift(container) {
+    container.classList.toggle("open");
+  }
+</script>
 
-  <footer>
-    &copy; 2025 Sửa Chữa Điện Lạnh Trần Phong. All rights reserved.
-  </footer>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
