@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>YaThinh - Giỏ hàng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap + FontAwesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <a class="navbar-brand" href="index.html">YaThinh</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
+      <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+  <!-- GIỎ HÀNG -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">🛒 Giỏ hàng của bạn</h2>
+    <div id="cartItems" class="table-responsive"></div>
+    <div id="cartTotal" class="text-end fw-bold fs-5 mt-3"></div>
+    <div class="text-center mt-4">
+      <button class="btn btn-success" onclick="checkout()">Thanh toán</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>© 2025 YaThinh Fashion. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap + JS xử lý giỏ hàng -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const cartContainer = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+
+    // Lấy dữ liệu giỏ hàng từ localStorage
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartContainer.innerHTML = `<p class="text-center text-muted">Giỏ hàng đang trống.</p>`;
+        cartTotal.innerHTML = "";
+        return;
+      }
+
+      let total = 0;
+      let table = `<table class="table table-bordered text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>STT</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th>Xoá</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        table += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${item.name}</td>
+            <td>${item.price.toLocaleString()}đ</td>
+            <td>${item.quantity}</td>
+            <td>${itemTotal.toLocaleString()}đ</td>
+            <td><button class="btn btn-sm btn-danger" onclick="removeItem(${index})">X</button></td>
+          </tr>
+        `;
+      });
+
+      table += `</tbody></table>`;
+      cartContainer.innerHTML = table;
+      cartTotal.innerHTML = `Tổng cộng: ${total.toLocaleString()}đ`;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Bạn chưa có sản phẩm nào để thanh toán!");
+        return;
+      }
+      alert("Cảm ơn bạn đã thanh toán! (Giả lập)");
+      cart = [];
+      localStorage.removeItem("cart");
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
+

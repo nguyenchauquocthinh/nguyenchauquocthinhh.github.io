@@ -1,0 +1,58 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.banner img {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.carousel-inner img {
+  max-height: 350px;
+  object-fit: cover;
+}
+
+.card img {
+  height: 260px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 50px;
+}
+.carousel-inner img {
+  max-height: 200px; /* hoặc 300px, tuỳ bạn muốn nhỏ cỡ nào */
+  object-fit: cover; /* giúp ảnh không bị méo */
+}
+.welcome-banner {
+  background-color: #343a40; /* màu tối */
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.blink {
+  animation: blink 0.8s linear infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+
+
+
+

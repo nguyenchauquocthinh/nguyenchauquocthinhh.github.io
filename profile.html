@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>YaThinh - Hồ sơ cá nhân</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap + FontAwesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <a class="navbar-brand" href="index.html">YaThinh</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
+      <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+  <!-- NỘI DUNG HỒ SƠ -->
+  <div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Thông tin người dùng</h2>
+    <div id="profileContent" class="text-center"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>© 2025 YaThinh Fashion. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS + Profile Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Lấy dữ liệu từ localStorage
+    const userEmail = localStorage.getItem("loggedInUser");
+    const userData = JSON.parse(localStorage.getItem("registeredUser"));
+    const content = document.getElementById("profileContent");
+
+    if (userEmail && userData) {
+      // Hiển thị thông tin người dùng
+      content.innerHTML = `
+        <div class="card shadow p-4">
+          <i class="fa fa-user-circle fa-4x mb-3 text-secondary"></i>
+          <h4>👋 Xin chào, <strong>${userData.fullname}</strong></h4>
+          <p>Email của bạn: <strong>${userEmail}</strong></p>
+          <button onclick="logout()" class="btn btn-danger mt-3">Đăng xuất</button>
+        </div>
+      `;
+    } else {
+      // Chưa đăng nhập
+      content.innerHTML = `
+        <div class="alert alert-warning">
+          Bạn chưa đăng nhập. Vui lòng <a href="login.html">đăng nhập tại đây</a>.
+        </div>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>YaThinh - Liên hệ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap + FontAwesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+  <a class="navbar-brand" href="index.html">YaThinh</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+      <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
+      <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
+      <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
+      <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+  <!-- TIÊU ĐỀ -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Liên hệ với YaThinh</h2>
+    <div class="row">
+      <!-- Thông tin liên hệ -->
+      <div class="col-md-6">
+        <h5><i class="fa fa-map-marker-alt me-2"></i> Địa chỉ</h5>
+        <p>74 Hiệp Thành 44, Quận 12, TP.HCM</p>
+
+        <h5><i class="fa fa-phone me-2"></i> Điện thoại</h5>
+        <p>0353 041 765</p>
+
+        <h5><i class="fa fa-envelope me-2"></i> Email</h5>
+        <p>nguyenchauquocthinh8899@gmail.com</p>
+
+        <!-- Google Map -->
+        <h5 class="mt-4">Bản đồ</h5>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.894179508236!2d106.62642111474994!3d10.74400286263357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752c5a6a0db0c7%3A0x377d0b7a80e6b260!2zNzQgSOG6oXAgVGjDoW5oIDQ0LCBLaHXDqiBUaOG7mWksIFF14bqtbiAxMiwgSOG7kyBDaMOidSwgVmlldG5hbQ!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s"
+          width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+
+      <!-- Form liên hệ -->
+      <div class="col-md-6">
+        <h5>Gửi tin nhắn cho chúng tôi</h5>
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Họ tên</label>
+            <input type="text" class="form-control" id="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Nội dung</label>
+            <textarea class="form-control" id="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark">Gửi liên hệ</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>© 2025 YaThinh Fashion. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
