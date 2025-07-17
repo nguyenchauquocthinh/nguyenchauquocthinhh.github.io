@@ -75,9 +75,194 @@
       transition: color 0.3s ease;
     }
   </style>
+    <style>
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+    }
+    .cart-icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+  </style>
 </head>
+
+</head>
+<div id="flash-sale" class="position-fixed bottom-0 end-0 bg-danger text-white p-3 rounded-top-start shadow" style="z-index: 1050;">
+  <strong>🔥 Khuyến mãi HOT!</strong> Giảm đến 50% cho bộ sưu tập mới!
+  <button class="btn-close btn-close-white ms-2" onclick="document.getElementById('flash-sale').remove()"></button>
+</div>
+<button onclick="scrollToTop()" class="btn btn-dark rounded-circle" id="btnTop" title="Lên đầu trang" style="position:fixed;bottom:20px;right:20px;display:none;z-index:1000;">
+  <i class="fa fa-arrow-up"></i>
+</button>
+
+<script>
+  const btnTop = document.getElementById("btnTop");
+  window.onscroll = () => {
+    btnTop.style.display = window.pageYOffset > 300 ? "block" : "none";
+  };
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+<!-- Chat Popup -->
+<style>
+  #chatbox {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    height: 450px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+  }
+  #chat-header {
+    background: #212529;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+  #chat-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  #chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+  #chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+  }
+  #chat-input button {
+    background: #212529;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  #chat-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background: #212529;
+    color: white;
+    font-size: 22px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    cursor: pointer;
+    z-index: 10000;
+  }
+</style>
+
+<!-- Chat HTML -->
+<div id="chatbox">
+  <div id="chat-header">💬 YaThinh AI</div>
+  <div id="chat-body">
+    <div><strong>YaThinh AI:</strong> Xin chào! Tôi có thể hỗ trợ gì cho bạn hôm nay?</div>
+  </div>
+  <div id="chat-input">
+    <input type="text" id="userMsg" placeholder="Nhập tin nhắn...">
+    <button onclick="sendMessage()">Gửi</button>
+  </div>
+</div>
+
+<button id="chat-toggle-btn" onclick="toggleChat()">💬</button>
+
+<!-- Chat JS -->
+<script>
+  function toggleChat() {
+    const chatbox = document.getElementById("chatbox");
+    chatbox.style.display = chatbox.style.display === "none" ? "flex" : "none";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userMsg");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    const chatBody = document.getElementById("chat-body");
+    const userDiv = document.createElement("div");
+    userDiv.innerHTML = `<strong>Bạn:</strong> ${msg}`;
+    chatBody.appendChild(userDiv);
+
+    // Mô phỏng phản hồi AI (Bạn có thể thay bằng API sau này)
+    setTimeout(() => {
+      const aiReply = document.createElement("div");
+      aiReply.innerHTML = `<strong>YaThinh AI:</strong> Tôi đã nhận được: "${msg}" – chúng tôi sẽ phản hồi sớm!`;
+      chatBody.appendChild(aiReply);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 800);
+
+    input.value = "";
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+</script>
+<script>
+  function updateCartCount(count) {
+    document.getElementById("cart-count").innerText = count;
+  }
+
+  // Ví dụ: cập nhật số lượng mới
+  updateCartCount(5);
+</script>
+<script>
+  // Thêm sản phẩm vào giỏ hàng
+  function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartCount();
+    alert("✅ Đã thêm vào giỏ hàng!");
+  }
+
+  // Cập nhật số lượng sản phẩm ở badge
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const countEl = document.getElementById("cart-count");
+    if (countEl) countEl.textContent = cart.length;
+  }
+
+  // Gọi khi load trang
+  document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+<script>
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartCount = document.getElementById("cartCount");
+
+  function updateCartBadge() {
+    let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (totalCount > 0) {
+      cartCount.classList.remove("d-none");
+      cartCount.textContent = totalCount;
+    } else {
+      cartCount.classList.add("d-none");
+    }
+  }
+
+  updateCartBadge();
+</script>
 <body class="bg-light">
-<!-- NAVBAR -->
+ <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
   <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
     <img src="Image/ảnh Quốc Thịnh.png" alt="Logo" width="40" height="40" class="me-2">
@@ -86,6 +271,7 @@
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="nav">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
@@ -93,7 +279,20 @@
       <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
       <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
       <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
-      <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+
+      <!-- Giỏ hàng có badge -->
+      <li class="nav-item">
+  <a class="nav-link position-relative" href="cart.html">
+    <div class="cart-icon-wrapper">
+      <i class="fa fa-shopping-cart"></i> Giỏ hàng
+      <span id="cartCount" class="cart-badge d-none">0</span>
+    </div>
+  </a>
+</li>
+      <!-- Nút chuyển Dark Mode -->
+      <li class="nav-item">
+        <button class="btn btn-sm btn-outline-light ms-3" onclick="toggleDarkMode()">🌙</button>
+      </li>
     </ul>
   </div>
 </nav>
@@ -167,9 +366,22 @@
       <img src="Image/áo sơ mi trắng.jpg" class="card-img-top" alt="Áo sơ mi trắng">
       <div class="card-body">
         <h5 class="card-title">Áo sơ mi trắng</h5>
-        <p class="card-text">199.000đ</p>
-        <button class="btn btn-primary w-100" onclick="addToCart('Áo sơ mi trắng', 199000)">Thêm vào giỏ</button>
-      </div>
+       <p class="card-text">199.000đ</p>
+       <div class="d-flex flex-wrap gap-2 mb-3 size-buttons">
+       <button class="btn btn-outline-dark btn-sm size-btn active">S</button>
+       <button class="btn btn-outline-dark btn-sm size-btn">M</button>
+       <button class="btn btn-outline-dark btn-sm size-btn">L</button>
+       <button class="btn btn-outline-dark btn-sm size-btn">XL</button>
+       <button class="btn btn-outline-dark btn-sm size-btn">XXL</button>
+       </div>
+     <!-- Nút mở bảng quy đổi -->
+       <div class="mb-2">
+       <a href="#" class="text-decoration-none text-primary small" data-bs-toggle="modal" data-bs-target="#sizeModal">
+       <i class="fa-solid fa-ruler-combined me-1"></i> Bảng quy đổi size
+       </a>
+       </div>
+       <button class="btn btn-primary w-100" onclick="addToCart(this, 'Áo sơ mi trắng', 199000)">Thêm vào giỏ</button>
+       </div>
     </div>
   </div> 
 
@@ -181,7 +393,20 @@
       <div class="card-body">
         <h5 class="card-title">Áo thun đen</h5>
         <p class="card-text">149.000đ</p>
-        <button class="btn btn-primary w-100" onclick="addToCart('Áo thun đen', 149000)">Thêm vào giỏ</button>
+        <div class="d-flex flex-wrap gap-2 mb-3 size-buttons">
+        <button class="btn btn-outline-dark btn-sm size-btn active">S</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">M</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">L</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">XL</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">XXL</button>
+        </div>
+      <!-- Nút mở bảng quy đổi -->
+        <div class="mb-2">
+         <a href="#" class="text-decoration-none text-primary small" data-bs-toggle="modal" data-bs-target="#sizeModal">
+         <i class="fa-solid fa-ruler-combined me-1"></i> Bảng quy đổi size
+         </a>
+        </div>
+        <button class="btn btn-primary w-100" onclick="addToCart(this,'Áo thun đen', 149000)">Thêm vào giỏ</button>
       </div>
     </div>
   </div>
@@ -192,8 +417,21 @@
       <img src="Image/áo sơ mi caro.jpg" class="card-img-top" alt="Áo sơ mi caro">
       <div class="card-body">
         <h5 class="card-title">Áo sơ mi caro</h5>
-        <p class="card-text">169.000đ</p>
-        <button class="btn btn-primary w-100" onclick="addToCart('Áo sơ mi caro', 169000)">Thêm vào giỏ</button>
+        <p class="card-text">169.000đ</p> 
+        <div class="d-flex flex-wrap gap-2 mb-3 size-buttons">
+        <button class="btn btn-outline-dark btn-sm size-btn active">S</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">M</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">L</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">XL</button>
+        <button class="btn btn-outline-dark btn-sm size-btn">XXL</button>
+        </div>
+      <!-- Nút mở bảng quy đổi -->
+        <div class="mb-2">
+       <a href="#" class="text-decoration-none text-primary small" data-bs-toggle="modal" data-bs-target="#sizeModal">
+       <i class="fa-solid fa-ruler-combined me-1"></i> Bảng quy đổi size
+       </a>
+       </div>
+        <button class="btn btn-primary w-100" onclick="addToCart(this,'Áo sơ mi caro', 169000)">Thêm vào giỏ hàng</button>
       </div>
     </div>
   </div>
@@ -256,10 +494,52 @@
     <li class="page-item"><a class="page-link" href="#">21</a></li>
   </ul>
 </nav>
+   <section class="container mt-5">
+  <h2 class="text-center mb-4">Tips mặc đẹp cùng YaThinh</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <h5>🌿 Phối áo sơ mi trắng cho ngày hè</h5>
+      <p class="small text-muted">Sơ mi trắng là lựa chọn lý tưởng cho mùa nắng...</p>
+    </div>
+    <div class="col-md-4">
+      <h5>🖤 Mặc áo thun đen sao cho chất?</h5>
+      <p class="small text-muted">Áo thun đen tuy đơn giản nhưng phối hợp đúng sẽ rất nổi bật...</p>
+    </div>
+    <div class="col-md-4">
+      <h5>🧥 Sweater trong thời tiết se lạnh</h5>
+      <p class="small text-muted">Sweater mang lại cảm giác ấm áp, dễ mix với quần jeans...</p>
+    </div>
+  </div>
+</section>
 
   </section>
+<section class="container my-5">
+  <h2 class="text-center mb-4">Khách hàng nói gì về YaThinh?</h2>
+  <div class="row text-center">
+    <div class="col-md-4 mb-3">
+      <div class="card p-3 h-100 shadow-sm">
+        <p>"Chất lượng sản phẩm tốt, giao hàng nhanh. Sẽ ủng hộ lâu dài!"</p>
+        <h6 class="fw-bold mt-3">Lê Hoàng Thái</h6>
+        <small class="text-muted">Khách hàng tại TP.HCM</small>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card p-3 h-100 shadow-sm">
+        <p>"Áo đẹp hơn mong đợi, dịch vụ chăm sóc khách hàng rất tốt."</p>
+        <h6 class="fw-bold mt-3">Cán Quang Sáng</h6>
+        <small class="text-muted">Khách hàng tại Hà Nội</small>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card p-3 h-100 shadow-sm">
+        <p>"Giá hợp lý, nhiều mẫu mã trẻ trung. Giao diện web dễ sử dụng."</p>
+        <h6 class="fw-bold mt-3">Ngô Gia Tự</h6>
+        <small class="text-muted">Khách hàng tại Đà Nẵng</small>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- FOOTER -->
   <!-- FOOTER MẪU THEO YAME -->
 <footer class="bg-dark text-white pt-4">
   <div class="container text-center">
@@ -302,18 +582,47 @@
 
   <!-- Script: Thêm vào giỏ hàng -->
   <script>
-    function addToCart(name, price) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const found = cart.find(item => item.name === name);
-      if (found) {
-        found.quantity++;
-      } else {
-        cart.push({ name, price, quantity: 1 });
-      }
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert("Đã thêm '" + name + "' vào giỏ hàng!");
+  // Xử lý chọn size
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("size-btn")) {
+      const buttons = e.target.parentElement.querySelectorAll(".size-btn");
+      buttons.forEach(btn => btn.classList.remove("active"));
+      e.target.classList.add("active");
     }
-  </script>
+  });
+
+  // Cập nhật hàm addToCart để lấy đúng size
+  function addToCart(button, name, price) {
+    const sizeButton = button.parentElement.querySelector(".size-btn.active");
+    const size = sizeButton ? sizeButton.textContent : "M"; // mặc định là M
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const found = cart.find(item => item.name === name && item.size === size);
+    if (found) {
+      found.quantity++;
+    } else {
+      cart.push({ name, price, size, quantity: 1 });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCartBadge();
+    alert("Đã thêm '" + name + "' (Size " + size + ") vào giỏ hàng!");
+  }
+
+  // Badge giỏ hàng luôn cập nhật đúng số lượng
+  function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartCount = document.getElementById("cartCount");
+    let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCount) {
+      if (totalCount > 0) {
+        cartCount.classList.remove("d-none");
+        cartCount.textContent = totalCount;
+      } else {
+        cartCount.classList.add("d-none");
+      }
+    }
+  }
+  document.addEventListener("DOMContentLoaded", updateCartBadge);
+</script>
 <style>
 .custom-pagination .page-link {
   color: black;
@@ -341,6 +650,68 @@
   background-color: transparent;
 }
 </style>
+<!-- Modal bảng quy đổi size -->
+<div class="modal fade" id="sizeModal" tabindex="-1" aria-labelledby="sizeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="sizeModalLabel"><i class="fa-solid fa-ruler-combined me-2"></i>Bảng Quy Đổi Size</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Size</th>
+              <th>Chiều cao (cm)</th>
+              <th>Cân nặng (kg)</th>
+              <th>Vòng ngực (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>S</td>
+              <td>155 - 165</td>
+              <td>45 - 55</td>
+              <td>84 - 88</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>160 - 170</td>
+              <td>55 - 65</td>
+              <td>88 - 92</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>165 - 175</td>
+              <td>65 - 72</td>
+              <td>92 - 96</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>170 - 180</td>
+              <td>72 - 80</td>
+              <td>96 - 100</td>
+            </tr>
+            <tr>
+              <td>XXL</td>
+              <td>175 - 185</td>
+              <td>80 - 90</td>
+              <td>100 - 104</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-muted small mt-2">* Lưu ý: Thông số mang tính tham khảo, có thể chênh lệch tuỳ vào form áo và chất liệu vải.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleDarkMode() {
+  document.body.classList.toggle("bg-dark");
+  document.body.classList.toggle("text-white");
+}
+</script>
 </body>
 </html>
 

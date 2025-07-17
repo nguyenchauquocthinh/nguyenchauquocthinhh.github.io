@@ -9,27 +9,53 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+    }
+    .cart-icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
 
   <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-  <a class="navbar-brand" href="index.html">YaThinh</a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="nav">
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-      <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
-      <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
-      <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
-      <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
-      <li class="nav-item"><a class="nav-link" href="cart.html"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-    </ul>
-  </div>
-</nav>
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+      <img src="Image/ảnh Quốc Thịnh.png" alt="Logo" width="40" height="40" class="me-2">
+      YaThinh
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Liên hệ</a></li>
+        <li class="nav-item"><a class="nav-link" href="register.html">Đăng ký</a></li>
+        <li class="nav-item"><a class="nav-link" href="login.html">Đăng nhập</a></li>
+        <li class="nav-item"><a class="nav-link" href="profile.html">Hồ sơ</a></li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="cart.html">
+            <div class="cart-icon-wrapper">
+              <i class="fa fa-shopping-cart"></i> Giỏ hàng
+              <span id="cartCount" class="cart-badge d-none">0</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- GIỎ HÀNG -->
   <div class="container mt-5">
@@ -51,14 +77,26 @@
   <script>
     const cartContainer = document.getElementById("cartItems");
     const cartTotal = document.getElementById("cartTotal");
+    const cartCount = document.getElementById("cartCount");
 
-    // Lấy dữ liệu giỏ hàng từ localStorage
+    // Lấy giỏ hàng từ localStorage
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function updateCartBadge() {
+      let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalCount > 0) {
+        cartCount.classList.remove("d-none");
+        cartCount.textContent = totalCount;
+      } else {
+        cartCount.classList.add("d-none");
+      }
+    }
 
     function renderCart() {
       if (cart.length === 0) {
         cartContainer.innerHTML = `<p class="text-center text-muted">Giỏ hàng đang trống.</p>`;
         cartTotal.innerHTML = "";
+        updateCartBadge();
         return;
       }
 
@@ -87,13 +125,14 @@
             <td>${item.quantity}</td>
             <td>${itemTotal.toLocaleString()}đ</td>
             <td><button class="btn btn-sm btn-danger" onclick="removeItem(${index})">X</button></td>
-          </tr>
-        `;
+          </tr>`;
       });
 
       table += `</tbody></table>`;
       cartContainer.innerHTML = table;
       cartTotal.innerHTML = `Tổng cộng: ${total.toLocaleString()}đ`;
+
+      updateCartBadge();
     }
 
     function removeItem(index) {
@@ -117,4 +156,5 @@
   </script>
 </body>
 </html>
+
 

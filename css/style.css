@@ -51,6 +51,20 @@ footer {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
+.size-buttons .size-btn {
+  border: 1px solid #a3cb2c;
+  color: #fa6161;
+  background: #fff;
+  transition: all 0.2s ease-in-out;
+}
+.size-buttons .size-btn.active {
+  background: #000;
+  color: #fff;
+}
+.size-buttons .size-btn:hover {
+  transform: scale(1.05);
+}
+
 
 
 
